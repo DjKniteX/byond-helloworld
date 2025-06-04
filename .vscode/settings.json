@@ -1,0 +1,12 @@
+{
+	"search.exclude": {
+		"**/.yarn": true,
+		"**/.pnp.*": true
+	},
+	"files.eol": "\n",
+	"files.insertFinalNewline": true,
+	"gitlens.advanced.blame.customArguments": ["-w"],
+	"workbench.editorAssociations": {
+		"*.dmi": "dmiEditor.dmiEditor"
+	}
+}

@@ -1,0 +1,13 @@
+{
+    "recommendations": [
+        "gbasood.byond-dm-language-support",
+		"platymuus.dm-langclient",
+		"stylemistake.auto-comment-blocks",
+		"eamodio.gitlens",
+		"oderwat.indent-rainbow",
+		"GitHub.vscode-pull-request-github",
+		"anturk.dmi-editor",
+		"usernamehw.errorlens",
+		"editorconfig.editorconfig"
+    ]
+}
