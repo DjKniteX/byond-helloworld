@@ -15,11 +15,11 @@
 // END_PREFERENCES
 
 // BEGIN_INCLUDE
-#include "gym.dmm"
 #include "Code\area.dm"
 #include "Code\mob.dm"
 #include "Code\obj.dm"
 #include "Code\turf.dm"
 #include "Code\world.dm"
+#include "Maps\gym.dmm"
 // END_INCLUDE
 
