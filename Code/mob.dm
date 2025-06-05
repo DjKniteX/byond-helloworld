@@ -6,6 +6,7 @@ mob
 		Strength = 1
 		Stamina = 100
 		exerciseCoolDown = 0
+		list/inventory = list() // Avaiable to all mobs
 
 	Move()
 		if(canMove)
@@ -27,4 +28,23 @@ mob
 					src.Speed += 1
 				if("Strength")
 					src.Strength += 1
+				else src << "You broke the game. Report this bug"
 			src << "Your [passedStat] increased to [src.vars[passedStat]]! You are getting stronger than Picoshong!"
+
+		RegenerateStamina()
+			if(src.Stamina < 100)
+				src.Stamina += 1
+			spawn(10) // will execute after the time has passed in the spawn
+				RegenerateStamina()
+
+		GetCreatine()
+			if("creatine" in src.inventory)
+				src << "You already have creatine in your inventory!"
+				return
+			src.inventory += "creatine"
+			src << "You got some creatine!"
+
+		SayHi()
+			src << "Picoshong: What you want fool!"
+		Attack()
+			src << "You do not want to do that right now."

@@ -17,3 +17,25 @@ obj
 				Lift_Barbell()
 					set src in oview(1)
 					usr.Exercise("Strength")
+
+	Vending_Machine
+		icon = 'vending_machine.dmi'
+		verb
+			Purchase_Creatine()
+				set src in oview(1)
+				usr.GetCreatine()
+
+	Enemies
+		icon = 'enemy.dmi'
+
+		Picoshong
+			icon_state = "picoshong"
+			verb
+				Say_Hi()
+					set src in oview(1)
+					usr.SayHi()
+				Attack()
+					set src in oview(1)
+					usr.Attack()
+
+
