@@ -84,9 +84,6 @@ mob
 				F["y"] >> y
 				F["z"] >> z
 				loc = (locate(x,y,z))
-		Check_LOC()
-			src << src.loc
-
 
 	proc
 		CheckArea(area/passedArea)
