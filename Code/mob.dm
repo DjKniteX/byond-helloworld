@@ -7,7 +7,11 @@ mob
 		Stamina = 100
 		exerciseCoolDown = 0
 		creatineCoolDown = 0
+		questsCompleted = 0
+		list/playerList = list()
 		list/inventory = list() // Avaiable to all mobs
+		tmp
+			dirtCleaned = 0
 
 	Move()
 		if(canMove)
@@ -20,7 +24,11 @@ mob
 		Login()
 			..()
 			RegenerateStamina()
+			playerList += src
 			world << "Hello, world!"
+		Logout()
+			playerList -= src
+			..()
 		Stat()
 			if(statpanel("Stats"))
 				stat("Name: ", name)
@@ -33,14 +41,25 @@ mob
 		Choose_Name()
 			usr.name = input(usr, "What is your name?", "Name") as text
 
+		Check_Online_Players()
+			usr << "PLAYERS ONLINE"
+			for(var/mob/i in playerList)
+				usr << i
+
 
 		Say(T as text)
+			if(CheckArea(/area/spooky_area))
+				src << "Nothing happens...."
+				return
 			view(5, src) << "[src] says :[T]" // anybody within 5 spaces of the src will see the message
 
 		Yell(T as text)
 			world << "<b>[src] yells: [T]"
 
 		Consume_Creatine()
+			if(world.time < usr.creatineCoolDown)
+				usr << "It's too soon for another serving!"
+				return
 			if("creatine" in src.inventory)
 				src.inventory -= "creatine"
 				src.Stamina += 20
@@ -65,9 +84,17 @@ mob
 				F["y"] >> y
 				F["z"] >> z
 				loc = (locate(x,y,z))
+		Check_LOC()
+			src << src.loc
 
 
 	proc
+		CheckArea(area/passedArea)
+			for(var/area/A in range(0, src.loc)) // range is similar to oview, but can look at a tile when a player is standing
+				if (A.type == passedArea)
+					return TRUE
+
+
 		Exercise(passedStat)
 			if(src.exerciseCoolDown > world.time)
 				src << "You need to rest before exercising again."
@@ -112,11 +139,22 @@ mob
 					var/response = alert(usr, "This is my gym. You can call me Picoshong", "Picoshong", "Can I get a job?", "Can I fight you?")
 					switch(response)
 						if("Can I get a job?")
-							usr << "Sure, you can clean up some dirt on the gym floor! Accep the quest?"
+							usr << "Sure, you can clean up some dirt on the gym floor! Accept the quest?"
 							var/accept_quest = alert(usr, "Do you want to accept the quest?", "Cleanup Duty", "Yes", "No")
+							if(accept_quest == "Yes")
+								usr << "Great! There's a dirt spot on the floor. Go clean it up and come back."
+								new/obj/Dirt_Spot(locate(10, 10, 1))
 						if("Can I fight you?")
 							if( usr.Strength > src.Strength)
 								usr << "Let's throw down!"
 							else
 								usr << "You think you can fight me? You can never fight me"
+				Complete_Quest()
+					set src in oview(1)
+					if(usr.dirtCleaned == 1)
+						usr.questsCompleted += 1
+						usr << "Great Job!"
+						usr.dirtCleaned = 0
+					else
+						usr << "Go clean up the dirt, lazy bones!"
 
