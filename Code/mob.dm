@@ -6,14 +6,43 @@ mob
 		Strength = 1
 		Stamina = 100
 		exerciseCoolDown = 0
+		creatineCoolDown = 0
 		list/inventory = list() // Avaiable to all mobs
 
 	Move()
 		if(canMove)
 			..() // calls parent move proc and will execute if true
 
+
+
 	player
 		icon = 'player.dmi'
+		Login()
+			..()
+			RegenerateStamina()
+			world << "Hello, world!"
+
+
+	verb
+		Choose_Name()
+			usr.name = input(usr, "What is your name?", "Name") as text
+
+
+		Say(T as text)
+			view(5, src) << "[src] says :[T]" // anybody within 5 spaces of the src will see the message
+
+		Yell(T as text)
+			world << "<b>[src] yells: [T]"
+
+		Consume_Creatine()
+			if("creatine" in src.inventory)
+				src.inventory -= "creatine"
+				src.Stamina += 20
+				creatineCoolDown = world.time + 3000
+				src << "You took a heaping scoop of creatine!"
+			else
+				src << "You don't have any creatine."
+
 
 	proc
 		Exercise(passedStat)
