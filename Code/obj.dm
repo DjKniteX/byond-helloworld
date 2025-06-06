@@ -25,17 +25,13 @@ obj
 				set src in oview(1)
 				usr.GetCreatine()
 
-	Enemies
-		icon = 'enemy.dmi'
-
-		Picoshong
-			icon_state = "picoshong"
-			verb
-				Say_Hi()
-					set src in oview(1)
-					usr.SayHi()
-				Attack()
-					set src in oview(1)
-					usr.Attack()
+	Dirt_Spot
+		icon = 'dirt_spot.dmi'
+		alpha = 150
+		verb
+			Clean_Dirt()
+				set src in oview(1)
+				usr << "You cleaned up the dirt!"
+				src.loc = null // delete function is not very siginificant vs src.loc
 
 

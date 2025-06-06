@@ -21,6 +21,12 @@ mob
 			..()
 			RegenerateStamina()
 			world << "Hello, world!"
+		Stat()
+			if(statpanel("Stats"))
+				stat("Name: ", name)
+				stat("Speed: ", Speed)
+				stat("Strength: ", Strength)
+				stat("Stamina: :", Stamina)
 
 
 	verb
@@ -42,6 +48,23 @@ mob
 				src << "You took a heaping scoop of creatine!"
 			else
 				src << "You don't have any creatine."
+		Save_Progress()
+			if(fexists("savefile.sav"))
+				fdel("savefile.sav")
+			var/savefile/F = new("savefile.sav")
+			Write(F)
+			F["x"] << src.x
+			F["y"] << src.y
+			F["z"] << src.z
+		Load_Progress()
+			if(fexists("savefile.sav"))
+				var/savefile/F = new("savefile.sav")
+				Read(F)
+				var/x; var/y; var/z
+				F["x"] >> x
+				F["y"] >> y
+				F["z"] >> z
+				loc = (locate(x,y,z))
 
 
 	proc
@@ -77,3 +100,23 @@ mob
 			src << "Picoshong: What you want fool!"
 		Attack()
 			src << "You do not want to do that right now."
+
+	npc
+		Picoshong
+			icon = 'enemy.dmi'
+			icon_state = "picoshong"
+			Strength = 10
+			verb
+				Talk()
+					set src in oview(1)
+					var/response = alert(usr, "This is my gym. You can call me Picoshong", "Picoshong", "Can I get a job?", "Can I fight you?")
+					switch(response)
+						if("Can I get a job?")
+							usr << "Sure, you can clean up some dirt on the gym floor! Accep the quest?"
+							var/accept_quest = alert(usr, "Do you want to accept the quest?", "Cleanup Duty", "Yes", "No")
+						if("Can I fight you?")
+							if( usr.Strength > src.Strength)
+								usr << "Let's throw down!"
+							else
+								usr << "You think you can fight me? You can never fight me"
+
